@@ -19,7 +19,6 @@ if [ ! -f /vagrant/apache-zookeeper-3.6.2-bin.tar.gz ]
     then
         cd /vagrant
         wget https://downloads.apache.org/zookeeper/zookeeper-3.6.2/apache-zookeeper-3.6.2-bin.tar.gz
-    fi
 fi
     
 
@@ -34,6 +33,21 @@ chown -R vagrant:vagrant /home/vagrant/apache-zookeeper-3.6.2-bin
 mkdir -p /data/zookeeper
 chown -R vagrant:vagrant /data
 cp /vagrant/etc/zoo.cfg /home/vagrant/zoo/conf/
+
+
+if [ ! -f /vagrant/spark-3.1.1-bin-hadoop3.2.tgz ] 
+then
+    cd /vagrant
+    wget https://downloads.apache.org/spark/spark-3.1.1/spark-3.1.1-bin-hadoop3.2.tgz
+fi
+
+if [ ! -d /home/vagrant/spark-3.1.1-bin-hadoop3.2 ]
+then
+    cd /home/vagrant
+    tar xvf /vagrant/spark-3.1.1-bin-hadoop3.2.tgz
+    ln -s spark-3.1.1-bin-hadoop3.2 spark
+    chown -R vagrant:vagrant spark
+fi
 
 HADOOP_CONF=/home/vagrant/hadoop/etc/hadoop
 cp /vagrant/etc/hadoop-env.sh $HADOOP_CONF
@@ -58,8 +72,16 @@ then
     echo 3 > /data/zookeeper/myid
 fi
 
+if [ $(hostname) == "dn3.example.com" ] 
+    then
+        echo 3 > /data/zookeeper/myid
+fi
+    
+
 cp /vagrant/etc/mapred-site.xml $HADOOP_CONF
 cp /vagrant/etc/yarn-site.xml $HADOOP_CONF
+cp /vagrant/etc/spark-env.sh $SPARK_HOME/conf
+cp /vagrant/etc/spark-defaults.conf $SPARK_HOME/conf
 mkdir -p /data/namenode
 mkdir -p /data/datanode
 chown -R vagrant:vagrant /data
@@ -68,6 +90,9 @@ cat /vagrant/keys/id_rsa > /home/vagrant/.ssh/id_rsa
 chown -R vagrant:vagrant /home/vagrant/.ssh/id_rsa
 chmod 600 /home/vagrant/.ssh/id_rsa
 cp /vagrant/etc/hosts /etc/hosts
+cp /vagrant/etc/.bashrc /home/vagrant
+cp $SPARK_HOME/jars/spark-network-shuffle_2.12-3.1.1.jar $HADOOP_HOME/share/hadoop/yarn/lib/
+
 SCRIPT
 
 
@@ -99,6 +124,16 @@ Vagrant.configure("2") do |config|
         dn2.vm.box = "boxomatic/centos-8"
         dn2.vm.hostname = "dn2.example.com"
         dn2.vm.network "private_network", ip: "10.0.0.4", hostname: true
+        dn2.vm.provider "virtualbox" do |v|
+            v.memory = 2048 
+        end
+        dn2.vm.provision "shell", inline: $script
+    end  
+
+    config.vm.define "dn3" do |dn2|
+        dn2.vm.box = "boxomatic/centos-8"
+        dn2.vm.hostname = "dn3.example.com"
+        dn2.vm.network "private_network", ip: "10.0.0.5", hostname: true
         dn2.vm.provider "virtualbox" do |v|
             v.memory = 2048 
         end
