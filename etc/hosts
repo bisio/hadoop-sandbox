@@ -1,0 +1,5 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+10.0.0.2 nn1.example.com nn1
+10.0.0.3 dn1.example.com dn1 
+10.0.0.4 dn2.example.com dn2    
