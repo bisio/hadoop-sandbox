@@ -92,7 +92,7 @@ chmod 600 /home/vagrant/.ssh/id_rsa
 cp /vagrant/etc/hosts /etc/hosts
 cp /vagrant/etc/.bashrc /home/vagrant
 cp $SPARK_HOME/jars/spark-network-shuffle_2.12-3.1.1.jar $HADOOP_HOME/share/hadoop/yarn/lib/
-
+cp $SPARK_HOME/yarn/spark-3.1.1-yarn-shuffle.jar $HADOOP_HOME/share/hadoop/yarn/lib/
 SCRIPT
 
 
