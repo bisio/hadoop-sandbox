@@ -1,5 +1,5 @@
 $script =  <<-SCRIPT
-yum -y install vim java-1.8.0-openjdk-devel wget tmux
+yum -y install vim java-1.8.0-openjdk-devel wget tmux pssh
 
 if [ ! -f /vagrant/hadoop-3.2.2.tar.gz ]
 then
@@ -91,8 +91,11 @@ chown -R vagrant:vagrant /home/vagrant/.ssh/id_rsa
 chmod 600 /home/vagrant/.ssh/id_rsa
 cp /vagrant/etc/hosts /etc/hosts
 cp /vagrant/etc/.bashrc /home/vagrant
+export SPARK_HOME=/home/vagrant/spark
+export HADOOP_HOME=/home/vagrant/hadoop
 cp $SPARK_HOME/jars/spark-network-shuffle_2.12-3.1.1.jar $HADOOP_HOME/share/hadoop/yarn/lib/
 cp $SPARK_HOME/yarn/spark-3.1.1-yarn-shuffle.jar $HADOOP_HOME/share/hadoop/yarn/lib/
+cp /vagrant/etc/.pssh_hosts_files /home/vagrant
 SCRIPT
 
 
