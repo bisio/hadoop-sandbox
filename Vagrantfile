@@ -96,6 +96,10 @@ export HADOOP_HOME=/home/vagrant/hadoop
 cp $SPARK_HOME/jars/spark-network-shuffle_2.12-3.1.1.jar $HADOOP_HOME/share/hadoop/yarn/lib/
 cp $SPARK_HOME/yarn/spark-3.1.1-yarn-shuffle.jar $HADOOP_HOME/share/hadoop/yarn/lib/
 cp /vagrant/etc/.pssh_hosts_files /home/vagrant
+cp /vagrant/etc/.zoo_hosts /home/vagrant
+mkdir -p /home/vagrant/bin
+cp /vagrant/bin/* /home/vagrant/bin
+chmod +x /home/vagrant/bin/*
 SCRIPT
 
 
@@ -118,7 +122,7 @@ Vagrant.configure("2") do |config|
         dn1.vm.hostname = "dn1.example.com"
         dn1.vm.network "private_network", ip: "10.0.0.3", hostname: true
         dn1.vm.provider "virtualbox" do |v|
-            v.memory = 2048 
+            v.memory = 1024 
         end
         dn1.vm.provision "shell", inline: $script
     end  
@@ -128,7 +132,7 @@ Vagrant.configure("2") do |config|
         dn2.vm.hostname = "dn2.example.com"
         dn2.vm.network "private_network", ip: "10.0.0.4", hostname: true
         dn2.vm.provider "virtualbox" do |v|
-            v.memory = 2048 
+            v.memory = 1024 
         end
         dn2.vm.provision "shell", inline: $script
     end  
@@ -138,7 +142,7 @@ Vagrant.configure("2") do |config|
         dn2.vm.hostname = "dn3.example.com"
         dn2.vm.network "private_network", ip: "10.0.0.5", hostname: true
         dn2.vm.provider "virtualbox" do |v|
-            v.memory = 2048 
+            v.memory = 1024 
         end
         dn2.vm.provision "shell", inline: $script
     end  

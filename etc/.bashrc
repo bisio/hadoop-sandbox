@@ -18,7 +18,7 @@ export PATH
 # User specific aliases and functions
 export HADOOP_HOME=/home/vagrant/hadoop
 export HADOOP_CONF_DIR=${HADOOP_HOME}/etc/hadoop
-export ZOO_HOME=/home/vagrant/zookeeper
+export ZOO_HOME=/home/vagrant/zoo
 export SPARK_HOME=/home/vagrant/spark
-export PATH=$SPARK_HOME/bin:$ZOO_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
+export PATH=$HOME/bin:$SPARK_HOME/bin:$ZOO_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
 export LD_LIBRARY_PATH=$HADOOP_HOME/lib/native:$LD_LIBRARY_PATH
